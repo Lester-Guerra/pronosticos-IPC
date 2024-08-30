@@ -55,11 +55,14 @@ for (i in 1:13) {
   f_div[[14]] <- f_div[[14]] + f_div[[i]] * ponderaciones[i]
   
   # Añadimos los índices actuales para completar una serie de 13.
-  # La repetición es para obtener un arbol al gráficar.
   ind_div <- tail(ind_div, 13 - m_pr)
-  f_div[[i]] <- cbind(
-    t(matrix(rep(ind_div, times = 5), ncol = m_pr)),
-    f_div[[i]]
+  f_div[[i]] <- rbind(
+    cbind(
+      matrix(NA, nrow = 5, ncol = 13 - m_pr - 1),
+      rep(ind_div[13 - m_pr], 5),
+      f_div[[i]]
+    ),
+    append(ind_div, rep(NA, m_pr))
   )
   # Se añaden los encabezados
   colnames(f_div[[i]]) <- fechas
@@ -67,20 +70,19 @@ for (i in 1:13) {
 
 # Convertimos la suma en un promedio
 f_div[[14]] <- f_div[[14]] / 100
+        
+# Añadimos los índices actuales.
+ipc <- tail(read.csv("Indices.csv")$indice, 13 - m_pr)
 
-# Añadimos índices generales ya calculados
-f_div[[14]] <- cbind(
-  t(
-    matrix(
-      rep(
-        tail(read.csv("Indices.csv")$indice, 13 - m_pr),
-        times = 5
-      ),
-      ncol = m_pr
-    )
+f_div[[14]] <- rbind(
+  cbind(
+    matrix(NA, nrow = 5, ncol = 13 - m_pr - 1),
+    rep(ipc[13 - m_pr], 5),
+    f_div[[14]]
   ),
-  f_div[[14]]
+  append(ipc, rep(NA, m_pr))
 )
+
 # Se añaden los encabezados
 colnames(f_div[[14]]) <- fechas
 
