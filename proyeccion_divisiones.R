@@ -86,8 +86,8 @@ f_div[[14]] <- rbind(
 # Se añaden los encabezados
 colnames(f_div[[14]]) <- fechas
 
-# Se nombra cada matriz según la región que representa
-names(f_div) <- c(paste0("Región ", 1:13), "República")
+# Se nombra cada matriz según la divión que representa
+names(f_div) <- c(paste0("División ", 1:13), "República")
 
 # Se guardan los resultados
 write.xlsx(f_div, "pronostico_divisiones.xlsx")
